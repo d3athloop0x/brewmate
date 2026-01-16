@@ -17,6 +17,11 @@
 
     <!-- styles -->
     <link rel="stylesheet" href="css/style.css" />
+
+    <!-- alpinejs -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <!-- App -->
+     <script src="src/app.js"></script>
   </head>
   <body>
     <!-- navbar start -->
@@ -26,13 +31,48 @@
         <a href="#">Home</a>
         <a href="#about">About</a>
         <a href="#menu">Menu</a>
+        <a href="#products">Products</a>
         <a href="#contact">Contact</a>
       </div>
       <div class="navbar-extra">
         <a href="#" id="search-icon"><i data-feather="search"></i></a>
-        <a href="#" id="cart-icon"><i data-feather="shopping-cart"></i></a>
+        <a href="#" id="cart-icon-button"><i data-feather="shopping-cart"></i></a>
         <a href="#" id="hamburger-menu"><i data-feather="menu"></i></a>
       </div>
+      <!-- search form start -->
+       <div class="search-form">
+        <input type = "search" id="search-box" placeholder="Search for coffee or pastries..." />
+        <label for="search-box"><i data-feather="search"></i></label>
+       </div>
+      <!-- search form end -->
+      <!-- shopping cart start -->
+       <div class="shopping-cart">
+        <div class="cart-item">
+          <img src="img/products/1.jpg" alt="Product 1" />
+          <div class="item-detail">
+            <h3>Coffee Beans 1</h3>
+            <div class="item-price">IDR 30K</div>
+          </div>
+          <i data-feather="trash-2" class="remove-item"></i>
+        </div>
+        <div class="cart-item">
+          <img src="img/products/1.jpg" alt="Product 1" />
+          <div class="item-detail">
+            <h3>Coffee Beans 1</h3>
+            <div class="item-price">IDR 30K</div>
+          </div>
+          <i data-feather="trash-2" class="remove-item"></i>
+        </div>
+        <div class="cart-item">
+          <img src="img/products/1.jpg" alt="Product 1" />
+          <div class="item-detail">
+            <h3>Coffee Beans 1</h3>
+            <div class="item-price">IDR 30K</div>
+          </div>
+          <i data-feather="trash-2" class="remove-item"></i>
+        </div>
+       </div>
+      <!-- shopping cart end -->
     </nav>
     <!-- navbar end -->
 
@@ -124,6 +164,76 @@
     </section>
     <!-- menu section end -->
 
+    <!-- product section start -->
+     <section class="products" id="products" x-data="products">
+      <h2><span>Featured</span> Products</h2>
+      <p>
+        Check out our featured products that are loved by our customers.
+      </p>
+
+      <div class="row">
+        <template x-for="(item, index) in items" x-key="index">
+        <div class="product-card">
+          <div class="product-icons">
+           <a href="#" @click.prevent="$store.cart.add(item)">
+            <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#shopping-cart" />
+            </svg>
+           </a>
+            <a href="#" class="item-detail-button">
+              <svg width="24" height="24" fill="none" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#eye" />
+            </svg>
+            </a>
+          </div>
+          <div class="product-image">
+            <img :src="'img/products/' + item.img" :alt="item.name" />
+          </div>
+          <div class="product-content">
+            <h3 x-text="item.name"></h3>
+            <div class="product-stars">
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+              <svg width="24" height="24" fill="currentColor" stroke="currentColor" stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round">
+                <use href="img/feather-sprite.svg#star" />
+              </svg>
+            </div>
+            <div class="product-price">
+              <span x-text="rupiah(item.price)"></span>
+            </div>
+          </div>
+          </div>
+        </div>
+        </template>
+      </div>
+     </section>
+    <!-- product section end -->
+
+
     <!-- contact section start -->
     <section class="contact" id="contact">
       <h2><span>Contact</span> Us</h2>
@@ -171,6 +281,35 @@
 
       </div>
      </footer>
+    <!--footer end-->
+  
+    <!--modal box item detail start-->
+    <div class="modal" id="item-detail-modal">
+      <div class="modal-container">
+        <a href="#" class="close-btn"><i data-feather="x"></i></a>
+        <div class="modal-content">
+          <img src="./img/products/1.jpg" alt="Product 1" />
+          <div class="product-content">
+            <h3>Robusta Brazil</h3>
+            <p> coffee beans from the best farms around the world, ensuring
+              every cup is a delightful experience.</p>
+            <div class="product-stars">
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star" class="star-full"></i>
+              <i data-feather="star"></i>
+            </div>
+            <div class="product-price">IDR 30K <span>IDR 55K</span>
+            </div>
+            <a href="#"><i data-feather="shopping-cart"></i><span>add to cart</span></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!--modal box item detail end-->
+
+
     <!--feather icon-->
     <script>
       feather.replace();
